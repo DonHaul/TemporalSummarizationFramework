@@ -21,8 +21,9 @@ class ArquivoPT(BaseDataSource):
 		self.processes = processes
 		self.docs_per_query = docs_per_query	
 	
-	def getResult(self, query, **kwargs):
-		domains = kwargs['domains']
+	def getResult(self, **kwargs):
+		domains = kwargs['siteSearch']
+		query = kwargs['q']
 		
 		if not(domains):
 			raise ValueError('Empty domains list. You need to specify at least one site domain to restrict the search.')
@@ -56,7 +57,7 @@ class ArquivoPT(BaseDataSource):
 			'maxItems':self.docs_per_query,
 			'itemsPerSite':itemsPerSite,
 			'type':'html',
-			'fields': 'originalURL,title,tstamp,encoding,linkToArchive'
+			'fields': 'originalURL,title,tstamp,encoding,linkToArchive,digest'
 		}
 
 		try:
@@ -85,7 +86,10 @@ class ArquivoPT(BaseDataSource):
 				item_result = ResultHeadLine(headline=item['title'], 
 											 datetime=datetime.strptime(item['tstamp'], ArquivoPT.DATETIME_FORMAT), 
 											 domain=url_domain, 
-											 url=item['linkToArchive'])
+											 url=item['linkToArchive'].split("wayback/",1)[1],
+											 digest=item['digest'])
+
+				#print(item_result)
 
 			except:
 				#ignore entried with invalid date format

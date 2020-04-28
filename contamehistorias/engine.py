@@ -259,7 +259,7 @@ class TemporalSummarizationEngine(object):
 
 			serialized['results'].append(result_interval)
 
-		return serialized
+		return serialized 
 
 	def pprint(self, intervals, verbose=False):
 		

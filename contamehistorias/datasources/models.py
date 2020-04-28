@@ -27,11 +27,12 @@ class RoundTripEncoder(json.JSONEncoder):
 
 class ResultHeadLine(object):
 
-	def __init__(self, headline, datetime, domain, url):
+	def __init__(self, headline, datetime, domain, url,digest):
 		self.headline = headline
 		self.datetime = datetime
 		self.domain = domain
 		self.url = url
+		self.digest = digest
 
 	@classmethod
 	def decoder(cls, json_str):
